@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="QuestionDB.QuestionEditor"
+             Title="Редактор вопроса"
+             x:Name="Root">
+    <VerticalStackLayout Spacing="6" Margin="12">
+        <Picker Title="Выберите тип вопроса" ItemsSource="{Binding Path=QuestionTypes}" ItemDisplayBinding="{Binding Name}" SelectedItem="{Binding Path=QuestionType, Mode=TwoWay}" />
+        <Editor Placeholder="Введите вопрос:" Text="{Binding Path=QuestionText, Mode=TwoWay}" HeightRequest="200"/>
+        <ScrollView IsVisible="{Binding Path=ListVisibility, Mode=OneWay}" HeightRequest="200">
+            <ListView ItemsSource="{Binding Path=Answers, Mode=TwoWay}" Margin="0,12">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Entry Text="{Binding Path=Text, Mode=TwoWay}" Placeholder="Вариант ответа" Margin="0,3"/>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </ScrollView>
+        <Entry Placeholder="Введите правильный вариант" Text="{Binding Path=CorrectAnswer, Mode=TwoWay}"/>
+        <HorizontalStackLayout HorizontalOptions="CenterAndExpand" IsVisible="{Binding Path=ListVisibility, Mode=OneWay}" Spacing="30">
+            <Button Text="Добавить вариант ответа"  Command="{Binding Path=AddAnswerOptionCommand}"/>
+            <Button Text="Удалить последний вариант ответа" Command="{Binding Path=RemoveAnswerOptionCommand}"/>
+        </HorizontalStackLayout>
+            
+        <Button Text="Сохранить вопрос" Command="{Binding Path=SaveQuestionCommand}"/>
+    </VerticalStackLayout>
+</ContentPage>

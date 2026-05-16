@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="QuestionDB.MainPage"
+             xmlns:local="clr-namespace:QuestionDB"
+             x:Name="Root">
+
+    <Grid RowSpacing="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height=".1*" />
+            <RowDefinition Height=".1*" />
+            <RowDefinition Height=".7*" />
+            <RowDefinition Height=".1*" />
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0" Style="{StaticResource Headline}" Text="Вижу, понимаю, применяю" />
+        <Label Grid.Row="1" Style="{StaticResource SubHeadline}" Text="Редактор базы данных вопросов" />
+        <Border Grid.Row="2" StrokeShape="RoundRectangle 10" StrokeThickness=".5" Stroke="LightGray" Margin="3">
+            <ScrollView >
+                <VerticalStackLayout >
+                    <ListView ItemsSource="{Binding Path=Questions,Mode=TwoWay}" SelectedItem="{Binding SelectedQuestion,Mode=TwoWay}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Label Text="{Binding Path=Text}" Margin="6" VerticalTextAlignment="Center">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Source={x:Reference Root}, Path=BindingContext.OpenEditorCommand}" CommandParameter="{Binding}" NumberOfTapsRequired="1" />
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    <HorizontalStackLayout HorizontalOptions="CenterAndExpand" Spacing="30">
+                        <Button Text="+" FontSize="Medium" WidthRequest="12" HeightRequest="12" Command="{Binding AddQuestionCommand}" HorizontalOptions="Center"/>
+                        <!--<Button Command="{Binding Path=OpenEditorCommand}" Grid.Column="1" WidthRequest="12" HeightRequest="12" CommandParameter="{Binding SelectedQuestion}" ImageSource="pencil.png"/>-->
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </ScrollView>
+        </Border>
+
+
+        <HorizontalStackLayout Grid.Row="3" HorizontalOptions="CenterAndExpand" Spacing="30" Margin="6">
+            <Button Text="Импорт" Command="{Binding Path=ImportDBCommand}"/>
+            <Button Text="Сохранить БД" Command="{Binding Path=ExportDBCommand}"/>
+        </HorizontalStackLayout>
+    </Grid>
+
+
+</ContentPage>
