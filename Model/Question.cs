@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Text.Unicode;
 using System.Threading.Tasks;
 
 namespace QuestionDB.Model
@@ -58,10 +60,22 @@ namespace QuestionDB.Model
 			set => SetProperty(ref answers, value);
 		}
 
-		public static List<Question> ImportFromFile(string filename)
+		[JsonIgnore]
+		private static JsonSerializerOptions options = new JsonSerializerOptions
 		{
-			return JsonSerializer.Deserialize<List<Question>>(filename);
+			Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic),
+			WriteIndented = true,
+		};
+
+		public static List<Question> FromJSON(string json) => JsonSerializer.Deserialize<List<Question>>(json);
+
+		public static string ToJSON(List<Question> serializible)
+		{
+			
+			return JsonSerializer.Serialize(serializible, options);
 		}
+
+
 		public Question()
 		{
 			text = "Новый вопрос";

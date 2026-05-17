@@ -21,11 +21,15 @@
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
-                                    <Label Text="{Binding Path=Text}" Margin="6" VerticalTextAlignment="Center">
-                                        <Label.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding Source={x:Reference Root}, Path=BindingContext.OpenEditorCommand}" CommandParameter="{Binding}" NumberOfTapsRequired="1" />
-                                        </Label.GestureRecognizers>
-                                    </Label>
+                                    <VerticalStackLayout>
+                                        <Label Text="{Binding Path=Text}" Margin="6" VerticalTextAlignment="Center">
+                                            <Label.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding Source={x:Reference Root}, Path=BindingContext.OpenEditorCommand}" CommandParameter="{Binding}" NumberOfTapsRequired="1" />
+                                            </Label.GestureRecognizers>
+                                        </Label>
+                                        <BoxView HeightRequest="1" Color="DarkGray" Margin="2"/>
+                                    </VerticalStackLayout>
+
                                 </ViewCell>
                             </DataTemplate>
                         </ListView.ItemTemplate>

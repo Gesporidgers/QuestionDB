@@ -19,10 +19,10 @@
             </ListView>
         </ScrollView>
         <Entry Placeholder="Введите правильный вариант" Text="{Binding Path=CorrectAnswer, Mode=TwoWay}"/>
-        <HorizontalStackLayout HorizontalOptions="CenterAndExpand" IsVisible="{Binding Path=ListVisibility, Mode=OneWay}" Spacing="30">
-            <Button Text="Добавить вариант ответа"  Command="{Binding Path=AddAnswerOptionCommand}"/>
-            <Button Text="Удалить последний вариант ответа" Command="{Binding Path=RemoveAnswerOptionCommand}"/>
-        </HorizontalStackLayout>
+        <FlexLayout Direction="Row" Wrap="Wrap" JustifyContent="Center" IsVisible="{Binding Path=ListVisibility, Mode=OneWay}">
+            <Button Text="Добавить вариант ответа" Command="{Binding Path=AddAnswerOptionCommand}" Margin="6"/>
+            <Button Text="Удалить последний вариант ответа" Command="{Binding Path=RemoveAnswerOptionCommand}" Margin="6"/>
+        </FlexLayout>
             
         <Button Text="Сохранить вопрос" Command="{Binding Path=SaveQuestionCommand}"/>
     </VerticalStackLayout>

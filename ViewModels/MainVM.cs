@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Maui.Storage;
+using CommunityToolkit.Maui.Alerts;
 using QuestionDB.Model;
 using Microsoft.Maui.Storage;
 using System.Text.Json;
@@ -37,7 +38,7 @@ namespace QuestionDB
 		[RelayCommand]
 		private void OpenEditor(Question question)
 		{
-            var editor = new QuestionEditor(ref question);
+			var editor = new QuestionEditor(ref question);
 			App.Current.MainPage.Navigation.PushAsync(editor);
 		}
 
@@ -48,16 +49,29 @@ namespace QuestionDB
 			List<Question> importedQuestions;
 			if (content != string.Empty)
 			{
-				importedQuestions = Question.ImportFromFile(content);
-				Questions = new ObservableCollection<Question>(importedQuestions);
+				try
+				{
+					importedQuestions = Question.FromJSON(content);
+					Questions = new ObservableCollection<Question>(importedQuestions);
+				}
+				catch (Exception ex)
+				{
+					await App.Current.MainPage.DisplayAlert("Ошибка", $"Произошла ошибка при импорте:\n{ex.Message}", "OK");
+				}
 			}
-				
+
 		}
 
 		[RelayCommand]
 		public async void ExportDB()
 		{
-			string json = JsonSerializer.Serialize(questions);
+			string json = Question.ToJSON(Questions.ToList());
+			if (await Utility.CheckPermissions())
+				await SaveFile(json);
+			else
+			{
+				await CommunityToolkit.Maui.Alerts.Toast.Make("У программы отсутствуют разрешения\nв хранилище").Show();
+			}
 		}
 
 		private async Task<string> PickFile()
@@ -77,9 +91,19 @@ namespace QuestionDB
 			{
 				using var stream = await result.OpenReadAsync();
 				using (StreamReader reader = new StreamReader(stream))
-				fileContent = await reader.ReadToEndAsync();
+					fileContent = await reader.ReadToEndAsync();
 			}
 			return fileContent;
+		}
+
+		private async Task SaveFile(string content)
+		{
+			using var stream = new MemoryStream(Encoding.UTF8.GetBytes(content));
+			var fileSaverResult = await FileSaver.Default.SaveAsync("questions_db.json", stream);
+			if (fileSaverResult.IsSuccessful)
+				await App.Current.MainPage.DisplayAlert("Успешно", "Файл сохранён", "OK");
+			else
+				await App.Current.MainPage.DisplayAlert("Ошибка", $"Произошла ошибка при сохранении:\n{fileSaverResult.Exception.Message}", "OK");
 		}
 	}
 }
