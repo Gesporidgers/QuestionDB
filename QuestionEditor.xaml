@@ -19,6 +19,7 @@
             </ListView>
         </ScrollView>
         <Entry Placeholder="Введите правильный вариант" Text="{Binding Path=CorrectAnswer, Mode=TwoWay}"/>
+        <Editor Placeholder="Почему этот ответ правильный?" Text="{Binding Path=Explanation, Mode=TwoWay}" HeightRequest="100"/>
         <FlexLayout Direction="Row" Wrap="Wrap" JustifyContent="Center" IsVisible="{Binding Path=ListVisibility, Mode=OneWay}">
             <Button Text="Добавить вариант ответа" Command="{Binding Path=AddAnswerOptionCommand}" Margin="6"/>
             <Button Text="Удалить последний вариант ответа" Command="{Binding Path=RemoveAnswerOptionCommand}" Margin="6"/>

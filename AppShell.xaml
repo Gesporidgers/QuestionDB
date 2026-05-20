@@ -7,5 +7,16 @@
     Title="QuestionDB">
 
     <local:MainPage/>
-
+    <VisualStateManager.VisualStateGroups>
+        <VisualStateGroup>
+            <VisualState Name="Phone">
+                <VisualState.StateTriggers>
+                    <AdaptiveTrigger MinWindowHeight="700" />
+                </VisualState.StateTriggers>
+                <VisualState.Setters>
+                    <Setter Property="Shell.HeightRequest" Value="900" />
+                </VisualState.Setters>
+            </VisualState>
+        </VisualStateGroup>
+    </VisualStateManager.VisualStateGroups>
 </Shell>

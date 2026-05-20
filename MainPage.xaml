@@ -4,7 +4,7 @@
              x:Class="QuestionDB.MainPage"
              xmlns:local="clr-namespace:QuestionDB"
              x:Name="Root">
-
+    
     <Grid RowSpacing="5">
         <Grid.RowDefinitions>
             <RowDefinition Height=".1*" />

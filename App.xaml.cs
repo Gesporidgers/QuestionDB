@@ -1,4 +1,6 @@
-﻿namespace QuestionDB
+﻿
+
+namespace QuestionDB
 {
 	public partial class App : Application
 	{
@@ -9,7 +11,13 @@
 
 		protected override Window CreateWindow(IActivationState? activationState)
 		{
-			return new Window(new AppShell());
+			var w = new Window(new AppShell());
+#if WINDOWS
+			w.Height = 900;
+#elif ANDROID
+			w.Height = 1000;
+#endif
+			return w;
 		}
 	}
 }

@@ -60,6 +60,14 @@ namespace QuestionDB.Model
 			set => SetProperty(ref answers, value);
 		}
 
+		private string explanation = string.Empty;
+		[JsonPropertyName("explanation")]
+		public string Explanation
+		{
+			get => explanation;
+			set => SetProperty(ref explanation, value);
+		}
+
 		[JsonIgnore]
 		private static JsonSerializerOptions options = new JsonSerializerOptions
 		{

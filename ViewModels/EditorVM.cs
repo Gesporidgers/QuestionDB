@@ -35,6 +35,9 @@ namespace QuestionDB.ViewModels
 
 		[ObservableProperty]
 		private string correctAnswer;
+		
+		[ObservableProperty]
+		private string explanation;
 
 		[ObservableProperty]
 		private Visibility listVisibility = Visibility.Collapsed;
@@ -55,6 +58,7 @@ namespace QuestionDB.ViewModels
 			QuestionType = QuestionTypes[question.QuestionType];
 			Answers = new ObservableCollection<AnswerOption>(question.Answers.Select(a => new AnswerOption { Text = a }).ToList());
 			CorrectAnswer = question.CorrectAnswer;
+			Explanation= question.Explanation;
 			this.question = question;
 		}
 
@@ -81,9 +85,10 @@ namespace QuestionDB.ViewModels
 		private void SaveQuestion()
 		{
 			question.Text = QuestionText;
-			question.CorrectAnswer = correctAnswer;
-			question.Answers = answers.Select(a => a.Text).ToList();
+			question.CorrectAnswer = CorrectAnswer;
+			question.Answers = Answers.Select(a => a.Text).ToList();
 			question.QuestionType = QuestionType.Value;
+			question.Explanation = Explanation;
 			App.Current.MainPage.Navigation.PopAsync();
 		}
 
